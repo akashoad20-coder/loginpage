@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Glassmorphism Signup</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #0d0f18;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Glowing Orbs */
+        .background-blobs {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: floatBlob 10s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            width: 350px;
+            height: 350px;
+            background: #7928ca;
+            top: -10%;
+            left: -10%;
+        }
+
+        .blob-2 {
+            width: 400px;
+            height: 400px;
+            background: #ff007f;
+            bottom: -15%;
+            right: -10%;
+            animation-delay: 3s;
+        }
+
+        .blob-3 {
+            width: 300px;
+            height: 300px;
+            background: #00dfd8;
+            top: 40%;
+            left: 60%;
+            animation-delay: 6s;
+        }
+
+        @keyframes floatBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        /* VIP Glassmorphism Card Container */
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.05);
+            animation: cardEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes cardEntrance {
+            0% { opacity: 0; transform: translateY(40px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .form-header h2 {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Input Group Styling */
+        .input-group {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: #00dfd8;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 15px rgba(0, 223, 216, 0.2);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* VIP Glowing Submit Button */
+        .vip-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #00dfd8 0%, #007cf0 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 124, 240, 0.4);
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .vip-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0, 223, 216, 0.5);
+            background: linear-gradient(135deg, #00ede7 0%, #0088ff 100%);
+        }
+
+        .vip-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Result Popup / Output Box inside Database View */
+        #result-box {
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(0, 223, 216, 0.08);
+            border: 1px solid rgba(0, 223, 216, 0.3);
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #result-box h4 {
+            color: #00dfd8;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        #result-box pre {
+            color: #fff;
+            font-size: 11px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .error-msg {
+            color: #ff4d4d !important;
+            border-color: rgba(255, 77, 77, 0.3) !important;
+            background: rgba(255, 77, 77, 0.08) !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animated Glowing Background Blobs -->
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- VIP Glass Signup Form -->
+    <div class="container">
+        <div class="form-header">
+            <h2>VIP Portal</h2>
+            <p>Experience next-gen glassmorphism access</p>
+        </div>
+
+        <form id="signupForm">
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Username" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email Address" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="vip-btn">Register VIP Account</button>
+        </form>
+
+        <!-- Database Result Display Box -->
+        <div id="result-box">
+            <h4 id="result-title">✨ Database Result:</h4>
+            <pre id="result-content"></pre>
+        </div>
+    </div>
+
+    <script>
+        const signupForm = document.getElementById('signupForm');
+        const resultBox = document.getElementById('result-box');
+        const resultTitle = document.getElementById('result-title');
+        const resultContent = document.getElementById('result-content');
+
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const submitBtn = document.querySelector('.vip-btn');
+            submitBtn.textContent = 'Saving to Database...';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('http://localhost:5000/api/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
+
+                const result = await response.json();
+
+                resultBox.style.display = 'block';
+                if (result.success) {
+                    resultBox.classList.remove('error-msg');
+                    resultTitle.textContent = '🎉 Success! Saved to MongoDB Atlas:';
+                    resultContent.textContent = JSON.stringify(result.data, null, 2);
+                    signupForm.reset();
+                } else {
+                    resultBox.classList.add('error-msg');
+                    resultTitle.textContent = '⚠️ Error Occurred:';
+                    resultContent.textContent = result.message;
+                }
+            } catch (err) {
+                resultBox.style.display = 'block';
+                resultBox.classList.add('error-msg');
+                resultTitle.textContent = '❌ Connection Failed:';
+                resultContent.textContent = 'Could not connect to backend server. Make sure Node.js is running!';
+            } finally {
+                submitBtn.textContent = 'Register VIP Account';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
